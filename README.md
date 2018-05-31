@@ -21,6 +21,18 @@
             <li>returns and object with the status of the mine and the newly mined block</li>
             <li>creates new transaction for the mining reward</li>
         </ul>
+    <li>POST /register-and-broadcast-node (newNodeUrl)</li>
+        <ul>
+            <li></li>
+        </ul>
+    <li>POST /register-node</li>
+        <ul>
+            <li></li>
+        </ul>
+    <li>POST /register-nodes-bulk</li>
+        <ul>
+            <li></li>
+        </ul>
 </ul>
 
 <hr />
