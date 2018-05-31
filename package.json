@@ -4,12 +4,16 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "start": "nodemon --watch dev -e js dev/api.js",
         "test": "mocha"
     },
     "author": "matthi01",
     "license": "ISC",
     "dependencies": {
+        "body-parser": "^1.18.3",
+        "express": "^4.16.3",
         "mocha": "^5.2.0",
+        "nodemon": "^1.17.5",
         "sha256": "^0.2.0"
     }
 }
