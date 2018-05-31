@@ -5,6 +5,9 @@ class Blockchain {
     constructor() {
         this.chain = [];
         this.pendingTransactions = [];
+
+        // need a genesis block
+        this.createNewBlock(0, "", "");
     }
 }
 
@@ -56,7 +59,23 @@ Blockchain.prototype.hashBlock = function(
     const dataAsString =
         previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
     const hash = sha256(dataAsString);
+
     return hash;
+};
+
+Blockchain.prototype.proofOfWork = function(
+    previousBlockHash,
+    currentBlockData
+) {
+    let nonce = 0;
+    let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
+
+    while (hash.substr(0, 4) !== "0000") {
+        nonce++;
+        hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
+    }
+
+    return nonce;
 };
 
 module.exports = Blockchain;

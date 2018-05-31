@@ -8,15 +8,15 @@ beforeEach(() => {
     myCoin.createNewBlock(111, "fty32f4ty32343", "lkj2io3j4343o");
 });
 
-describe("Blockchain Datastructure", () => {
+describe("Blockchain Datastructure:", () => {
     it("adds a block to the chain", () => {
-        assert.equal(myCoin.chain.length, 1);
+        assert.equal(myCoin.chain.length, 2);
     });
 
     it("adds multiple blocks to the chain", () => {
         myCoin.createNewBlock(222, "lkj2io3j4343o", "wf32f323d3");
         myCoin.createNewBlock(333, "wf32f323d3", "23e23sdewde");
-        assert.equal(myCoin.chain.length, 3);
+        assert.equal(myCoin.chain.length, 4);
     });
 
     it("adds new transactions as pending transactions in the chain", () => {
@@ -32,7 +32,7 @@ describe("Blockchain Datastructure", () => {
             newTransaction.recipient
         );
 
-        assert.equal(myCoin.chain.length, 1);
+        assert.equal(myCoin.chain.length, 2);
         assert.equal(myCoin.pendingTransactions.length, 1);
         assert.deepEqual(myCoin.pendingTransactions[0], newTransaction);
     });
@@ -102,5 +102,36 @@ describe("Blockchain Datastructure", () => {
         );
 
         assert.equal(originalBlockHash, changedBlockHash);
+    });
+
+    it("runs proof of work correctly", () => {
+        const previousBlockHash = "h2h34h2432kj4n";
+        const currentBlockData = [
+            {
+                amount: 10,
+                sender: "4298234ioh234",
+                recipient: "2l34n32nkkjn"
+            },
+            {
+                amount: 20,
+                sender: "erfefwefewf32",
+                recipient: "wef32f23f3"
+            },
+            {
+                amount: 30,
+                sender: "g5g54gqwfwe",
+                recipient: "132d1d3c32"
+            }
+        ];
+
+        const nonce = myCoin.proofOfWork(previousBlockHash, currentBlockData);
+
+        const blockHash = myCoin.hashBlock(
+            previousBlockHash,
+            currentBlockData,
+            nonce
+        );
+
+        assert.equal(blockHash.substr(0, 4), "0000");
     });
 });
