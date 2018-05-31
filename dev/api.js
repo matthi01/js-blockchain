@@ -7,7 +7,9 @@ const Blockchain = require("./blockchain");
 const app = express();
 const port = 3000;
 
-const nodeAddress = uuid().split("-".join(""));
+const nodeAddress = uuid()
+    .split("-")
+    .join("");
 const myCoin = new Blockchain();
 
 app.use(bodyParser.json());
@@ -41,7 +43,7 @@ app.get("/mine", (req, res) => {
         nonce
     );
 
-    const newBlock = myCoin.createNewBlock(nonce, previousBlockHash, hash);
+    const newBlock = myCoin.createNewBlock(nonce, previousBlockHash, blockHash);
 
     // miner should get the mining reward. Reward goes to this instance of the API (node)
     myCoin.createNewTransaction(12.5, "000", nodeAddress);
