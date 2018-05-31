@@ -1,3 +1,5 @@
+const sha256 = require("sha256");
+
 class Blockchain {
     // pendingTransactions will hold any transactions that have not yet been placed into a block
     constructor() {
@@ -44,6 +46,17 @@ Blockchain.prototype.createNewTransaction = function(
 
     // return the block number that the transaction will be mined under (next block)
     return this.getLastBlock().index + 1;
+};
+
+Blockchain.prototype.hashBlock = function(
+    previousBlockHash,
+    currentBlockData,
+    nonce
+) {
+    const dataAsString =
+        previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
+    const hash = sha256(dataAsString);
+    return hash;
 };
 
 module.exports = Blockchain;
