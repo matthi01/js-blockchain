@@ -1,6 +1,6 @@
 const assert = require("assert");
 
-describe("Server / API:", () => {
+describe("Server / API / Node:", () => {
     it("should execute first test", () => {
         //placeholder
     });

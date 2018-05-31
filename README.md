@@ -1,10 +1,10 @@
-<p><b>JS Blockchain</b></p>
+<p><b><u>JS Blockchain</u></b></p>
 
 <p>Blockchain Datastructure + unit testing</p>
 
 <p>Express server / API to interact with blockchain</p>
+<b><u>Endpoints:</u></b>
 <ul>
-Endpoints:
     <li>GET /blockchain</li>
         <ul>
             <li>returns entire blockchain</li>
@@ -23,4 +23,10 @@ Endpoints:
         </ul>
 </ul>
 
-<p></p>
+<hr />
+
+<p>Decentralized Network</p>
+<p>Created a decentralized network by creating more instances of the API (renamed it to networkNode), each acting as a node.
+Each of these instances is hosted on a different port, from :3000 to :3005.</p>
+<p>Start instances by running npm run node_1 / ... / node_5.</p>
+<p>Keeping track of all running nodes in the blockchain instance.</p>

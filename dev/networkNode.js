@@ -5,7 +5,7 @@ const uuid = require("uuid/v1");
 const Blockchain = require("./blockchain");
 
 const app = express();
-const port = 3000;
+const port = process.argv[2];
 
 const nodeAddress = uuid()
     .split("-")

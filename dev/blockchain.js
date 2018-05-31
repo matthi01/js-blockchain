@@ -1,10 +1,15 @@
 const sha256 = require("sha256");
+const currentNodeUrl = process.argv[3];
 
 class Blockchain {
     // pendingTransactions will hold any transactions that have not yet been placed into a block
     constructor() {
         this.chain = [];
         this.pendingTransactions = [];
+
+        // assign the node URL to the blockchain instance / keep track of all nodes in the network in array
+        this.currentNodeUrl = currentNodeUrl;
+        this.networkNodes = [];
 
         // need a genesis block
         this.createNewBlock(0, "", "");
