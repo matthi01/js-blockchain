@@ -52,4 +52,55 @@ describe("Blockchain Datastructure", () => {
 
         assert.equal(lastBlock.transactions.length, 3);
     });
+
+    it("should hash a block", () => {
+        const previousBlockHash = "h2h34h2432kj4n";
+        let nonce = 100;
+        const currentBlockData = [
+            {
+                amount: 10,
+                sender: "4298234ioh234",
+                recipient: "2l34n32nkkjn"
+            },
+            {
+                amount: 20,
+                sender: "erfefwefewf32",
+                recipient: "wef32f23f3"
+            },
+            {
+                amount: 30,
+                sender: "g5g54gqwfwe",
+                recipient: "132d1d3c32"
+            }
+        ];
+
+        const originalBlockHash = myCoin.hashBlock(
+            previousBlockHash,
+            currentBlockData,
+            nonce
+        );
+        let changedBlockHash;
+
+        assert.equal(originalBlockHash.length, 64);
+
+        //change nonce to something else, hashes should not equal
+        nonce = 101;
+        changedBlockHash = myCoin.hashBlock(
+            previousBlockHash,
+            currentBlockData,
+            nonce
+        );
+
+        assert.notEqual(originalBlockHash, changedBlockHash);
+
+        //change nonce to back to original, hashes should now equal
+        nonce = 100;
+        changedBlockHash = myCoin.hashBlock(
+            previousBlockHash,
+            currentBlockData,
+            nonce
+        );
+
+        assert.equal(originalBlockHash, changedBlockHash);
+    });
 });
