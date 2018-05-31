@@ -9,3 +9,14 @@ bitcoin.createNewBlock(222, "d22f243f43f2d", "2r32rr3434f34f");
 bitcoin.createNewBlock(333, "2r32rr3434f34f", "234254gf43f43");
 
 console.log(bitcoin);
+
+/*
+still need to create mocha tests for:
+
+- adding a Block
+- adding multiple blocks
+- adding new transcaction (pending)
+- pending transactions are added to blocks
+- blocks remove pending transactions
+
+*/
