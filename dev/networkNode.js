@@ -71,14 +71,43 @@ app.get("/mine", (req, res) => {
 
     const newBlock = myCoin.createNewBlock(nonce, previousBlockHash, blockHash);
 
-    // miner should get the mining reward. Reward goes to this instance of the API (node)
-    myCoin.createNewTransaction(12.5, "000", nodeAddress);
+    const requestPromises = [];
+    myCoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + "/receive-new-block",
+            method: "POST",
+            body: { newBlock: newBlock },
+            json: true
+        };
 
-    res.json({
-        note: "Block mined successfully.",
-        block: newBlock
+        requestPromises.push(requestPromise(requestOptions));
     });
+
+    Promise.all(requestPromises)
+        .then(data => {
+            // miner should get the mining reward. Reward goes to this instance of the API (node)
+            const requestOptions = {
+                uri: myCoin.currentNodeUrl + "/transaction/broadcast",
+                method: "POST",
+                body: {
+                    amount: 12.5,
+                    sender: "000",
+                    recipient: nodeAddress
+                },
+                json: true
+            };
+
+            return requestPromise(requestOptions);
+        })
+        .then(data => {
+            res.json({
+                note: "Block mined successfully.",
+                block: newBlock
+            });
+        });
 });
+
+app.post("/receive-new-block", (req, res) => {});
 
 // register a node and broadcast it to the network
 // TO BE USED BY A NODE THAT IS REGISTERING ITSELF! - broadcasts to all others
