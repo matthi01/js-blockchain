@@ -25,11 +25,11 @@
         <ul>
             <li></li>
         </ul>
-    <li>POST /register-node</li>
+    <li>POST /register-node (newNodeUrl)</li>
         <ul>
             <li></li>
         </ul>
-    <li>POST /register-nodes-bulk</li>
+    <li>POST /register-nodes-bulk (allNetworkNodes)</li>
         <ul>
             <li></li>
         </ul>
