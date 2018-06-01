@@ -101,13 +101,29 @@ app.get("/mine", (req, res) => {
         })
         .then(data => {
             res.json({
-                note: "Block mined successfully.",
+                note: "Block mined and broadcast successfully.",
                 block: newBlock
             });
         });
 });
 
-app.post("/receive-new-block", (req, res) => {});
+app.post("/receive-new-block", (req, res) => {
+    const newBlock = req.body.newBlock;
+
+    // need to check the validity of the block
+    const lastBlock = myCoin.getLastBlock();
+    const correctHash = lastBlock.hash === newBlock.previousBlockHash;
+    const correctIndex = lastBlock.index + 1 === newBlock.index;
+
+    if (correctHash && correctIndex) {
+        myCoin.chain.push(newBlock);
+        myCoin.pendingTransactions = [];
+
+        res.json({ note: "New block received and accepted." });
+    } else {
+        res.json({ note: "New block was rejected." });
+    }
+});
 
 // register a node and broadcast it to the network
 // TO BE USED BY A NODE THAT IS REGISTERING ITSELF! - broadcasts to all others
