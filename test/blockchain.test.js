@@ -20,17 +20,19 @@ describe("Blockchain Datastructure:", () => {
     });
 
     it("adds new transactions as pending transactions in the chain", () => {
-        let newTransaction = {
+        const newTransactionValues = {
             amount: 100,
             sender: "SENDER00001",
             recipient: "RECIPIENT0001"
         };
 
-        myCoin.createNewTransaction(
-            newTransaction.amount,
-            newTransaction.sender,
-            newTransaction.recipient
+        const newTransaction = myCoin.createNewTransaction(
+            newTransactionValues.amount,
+            newTransactionValues.sender,
+            newTransactionValues.recipient
         );
+
+        myCoin.addTransactionToPending(newTransaction);
 
         assert.equal(myCoin.chain.length, 2);
         assert.equal(myCoin.pendingTransactions.length, 1);
@@ -38,9 +40,15 @@ describe("Blockchain Datastructure:", () => {
     });
 
     it("adds pending transactions to blocks once a block is created", () => {
-        myCoin.createNewTransaction(100, "SENDER00001", "RECIPIENT0001");
-        myCoin.createNewTransaction(200, "SENDER00002", "RECIPIENT0002");
-        myCoin.createNewTransaction(300, "SENDER00003", "RECIPIENT0003");
+        myCoin.addTransactionToPending(
+            myCoin.createNewTransaction(100, "SENDER00001", "RECIPIENT0001")
+        );
+        myCoin.addTransactionToPending(
+            myCoin.createNewTransaction(200, "SENDER00002", "RECIPIENT0002")
+        );
+        myCoin.addTransactionToPending(
+            myCoin.createNewTransaction(300, "SENDER00003", "RECIPIENT0003")
+        );
 
         assert.equal(myCoin.pendingTransactions.length, 3);
 

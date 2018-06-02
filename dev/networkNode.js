@@ -35,7 +35,7 @@ app.post("/transaction/broadcast", (req, res) => {
 
     myCoin.addTransactionToPending(newTransaction);
 
-    const requesPromises = [];
+    const requestPromises = [];
     myCoin.networkNodes.forEach(networkNodeUrl => {
         const requestOptions = {
             uri: networkNodeUrl + "/transaction",
@@ -44,10 +44,10 @@ app.post("/transaction/broadcast", (req, res) => {
             json: true
         };
 
-        requesPromises.push(requestPromise(requestOptions));
+        requestPromises.push(requestPromise(requestOptions));
     });
 
-    Promise.all(requesPromises).then(data => {
+    Promise.all(requestPromises).then(data => {
         res.json({
             note: "Transaction broadcast successfully."
         });
@@ -203,6 +203,10 @@ app.post("/register-nodes-bulk", (req, res) => {
     });
 
     res.json({ note: "Bulk registration successful." });
+});
+
+app.get("/node-address", (req, res) => {
+    res.json({ nodeAddress: nodeAddress });
 });
 
 app.listen(port, () => {
