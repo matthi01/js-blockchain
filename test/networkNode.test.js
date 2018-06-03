@@ -1,4 +1,5 @@
 // MAKE SURE TO START ALL NODE INSTANCES BEFORE RUNNING THE TEST!!!
+// *** npm run start-test-nodes
 
 const assert = require("assert");
 const requestPromise = require("request-promise");
@@ -8,30 +9,26 @@ const Blockchain = require("../dev/blockchain");
 const nodeInstanceUrls = [
     "http://localhost:3001",
     "http://localhost:3002",
-    "http://localhost:3003",
-    "http://localhost:3004",
-    "http://localhost:3005"
+    "http://localhost:3003"
 ];
 
-beforeEach(() => {
-    const requestPromises = [];
-    nodeInstanceUrls.forEach(nodeUrl => {
-        if (nodeUrl === nodeInstanceUrls[0]) return;
-        const requestOptions = {
-            uri: nodeInstanceUrls[0] + "/register-and-broadcast-node",
-            method: "POST",
-            body: { newNodeUrl: nodeUrl },
-            json: true
-        };
+const requestPromises = [];
+nodeInstanceUrls.forEach(nodeUrl => {
+    if (nodeUrl === nodeInstanceUrls[0]) return;
+    const requestOptions = {
+        uri: nodeInstanceUrls[0] + "/register-and-broadcast-node",
+        method: "POST",
+        body: { newNodeUrl: nodeUrl },
+        json: true
+    };
 
-        requestPromises.push(requestPromise(requestOptions));
-    });
-
-    Promise.all(requestPromises).then("OK");
+    requestPromises.push(requestPromise(requestOptions));
 });
 
+Promise.all(requestPromises).then("OK");
+
 describe("Node Instance:", () => {
-    it("correctly set up network of 5 nodes", async () => {
+    it("correctly set up network of 3 nodes", async () => {
         let requestOptions = {
             uri: nodeInstanceUrls[0] + "/blockchain",
             method: "GET",
@@ -41,11 +38,10 @@ describe("Node Instance:", () => {
 
         let myCoin = await requestPromise(requestOptions);
 
-        assert.equal(myCoin.networkNodes.length, 4);
+        assert.equal(myCoin.networkNodes.length, 2);
 
-        // check a second node
         requestOptions = {
-            uri: nodeInstanceUrls[4] + "/blockchain",
+            uri: nodeInstanceUrls[1] + "/blockchain",
             method: "GET",
             body: {},
             json: true
@@ -53,7 +49,18 @@ describe("Node Instance:", () => {
 
         myCoin = await requestPromise(requestOptions);
 
-        assert.equal(myCoin.networkNodes.length, 4);
+        assert.equal(myCoin.networkNodes.length, 2);
+
+        requestOptions = {
+            uri: nodeInstanceUrls[2] + "/blockchain",
+            method: "GET",
+            body: {},
+            json: true
+        };
+
+        myCoin = await requestPromise(requestOptions);
+
+        assert.equal(myCoin.networkNodes.length, 2);
     });
 
     it("posts transactions and broadcasts them throughout the network", async () => {
@@ -83,9 +90,19 @@ describe("Node Instance:", () => {
 
         assert.equal(myCoin.pendingTransactions.length, 3);
 
-        //check a second node
         requestOptions = {
-            uri: nodeInstanceUrls[3] + "/blockchain",
+            uri: nodeInstanceUrls[1] + "/blockchain",
+            method: "GET",
+            body: {},
+            json: true
+        };
+
+        myCoin = await requestPromise(requestOptions);
+
+        assert.equal(myCoin.pendingTransactions.length, 3);
+
+        requestOptions = {
+            uri: nodeInstanceUrls[2] + "/blockchain",
             method: "GET",
             body: {},
             json: true
@@ -120,7 +137,7 @@ describe("Node Instance:", () => {
         assert.equal(myCoin.chain[1].transactions.length, 3);
 
         requestOptions = {
-            uri: nodeInstanceUrls[3] + "/blockchain",
+            uri: nodeInstanceUrls[1] + "/blockchain",
             method: "GET",
             body: {},
             json: true
@@ -130,7 +147,7 @@ describe("Node Instance:", () => {
         assert.equal(myCoin.chain[1].transactions.length, 3);
 
         requestOptions = {
-            uri: nodeInstanceUrls[4] + "/blockchain",
+            uri: nodeInstanceUrls[2] + "/blockchain",
             method: "GET",
             body: {},
             json: true
