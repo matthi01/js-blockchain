@@ -94,9 +94,9 @@ Blockchain.prototype.chainIsValid = function(blockchain) {
     let valid = true;
 
     //skipping genesis block
-    for (i = 1; i < blockchain.chain.length; i++) {
-        const currentBlock = blockchain.chain[i];
-        const previousBlock = blockchain.chain[i - 1];
+    for (i = 1; i < blockchain.length; i++) {
+        const currentBlock = blockchain[i];
+        const previousBlock = blockchain[i - 1];
         const blockHash = this.hashBlock(
             previousBlock.hash,
             {
@@ -115,7 +115,7 @@ Blockchain.prototype.chainIsValid = function(blockchain) {
         }
     }
 
-    const genesisBlock = blockchain.chain[0];
+    const genesisBlock = blockchain[0];
     const correctNonce = genesisBlock.nonce === 0;
     const correctPreviousBlockHash = genesisBlock.previousBlockHash === "";
     const correctHash = genesisBlock.hash === "";

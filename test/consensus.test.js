@@ -128,20 +128,20 @@ beforeEach("", () => {
 
 describe("Consensus:", () => {
     it("verifies that a correct chain is valid", () => {
-        assert.equal(myCoin.chainIsValid(testChain), true);
+        assert.equal(myCoin.chainIsValid(testChain.chain), true);
     });
 
     it("finds an incorrect hash pair", () => {
         testChain.chain[2].previousBlockHash =
             "000052b9c4189def699913a77509be20109wefwefwfwef68e12a13048a3f6e3"; // changed digits in hash
 
-        assert.equal(myCoin.chainIsValid(testChain), false);
+        assert.equal(myCoin.chainIsValid(testChain.chain), false);
     });
 
     it("finds an incorrect block value", () => {
         testChain.chain[1].transactions[1].amount = 30; // changed value
 
-        assert.equal(myCoin.chainIsValid(testChain), false);
+        assert.equal(myCoin.chainIsValid(testChain.chain), false);
     });
 
     it("finds an tampered genesis block", () => {
@@ -152,6 +152,6 @@ describe("Consensus:", () => {
             transactionId: "61c0bbb0680b11e886b66906e002fd58"
         };
 
-        assert.equal(myCoin.chainIsValid(testChain), false);
+        assert.equal(myCoin.chainIsValid(testChain.chain), false);
     });
 });

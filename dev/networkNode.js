@@ -231,7 +231,7 @@ app.get("/consensus", (req, res) => {
                 if (blockchain.chain.length > maxChainLength) {
                     maxChainLength = blockchain.chain.length;
                     newLongestChain = blockchain.chain;
-                    newPendingTransactions = blockchain.transactions;
+                    newPendingTransactions = blockchain.pendingTransactions;
                 }
             });
 
@@ -245,7 +245,7 @@ app.get("/consensus", (req, res) => {
                 });
             } else {
                 myCoin.chain = newLongestChain;
-                myCOin.pendingTransactions = newPendingTransactions;
+                myCoin.pendingTransactions = newPendingTransactions;
 
                 res.json({
                     note: "This chain has been replaced",
