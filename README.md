@@ -59,3 +59,12 @@ Each of these instances is hosted on a different port, from :3000 to :3005.</p>
     <li>Once a block is mined by a node via the /mine endpoint, the mined block will be broadcast to each node in the network. Each node will verify the block and choose to reject or accept the block.</li>
     <li>The miner that successfully mines the block receives the block reward as the next transaction.</li>
 </ul>
+
+<br />
+<hr />
+
+<p><b>Consensus</b></p>
+<p>Compares one node to all the other nodes in the network to find discrepancies and confirm all have the right data.</p>
+<p>The algorithm in this blockchain implements the longest chain rule, trusting the longest chain because it has had the most amount of work put into it.</p>
+<p>Before running the consensus algorithm, need to check that the given chain that is longer is actually valid. Checking if the block hashes are correct by rehashing each block, and checking that each previous / current hash pair line up.</p>
+<p>Each node will compare its length to the length of the node with the longest chain in the network. If any chain is found that is longer, the longer chain will replace the original chain.</p>
