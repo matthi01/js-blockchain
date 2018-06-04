@@ -256,6 +256,26 @@ app.get("/consensus", (req, res) => {
     });
 });
 
+// localhost:3001/block/2k3hr323uhi32uhu4uh3u4...
+app.get("/block/:blockHash", (req, res) => {
+    const blockHash = req.params.blockHash;
+    const block = myCoin.getBlock(blockHash);
+    res.json({ block: block });
+});
+
+app.get("/transaction/:transactionId", (req, res) => {
+    const transactionId = req.params.transactionId;
+    const transactionObj = myCoin.getTransaction(transactionId);
+    res.json({
+        transaction: transactionObj.transaction,
+        block: transactionObj.block
+    });
+});
+
+app.get("/address/:address", (req, res) => {
+    const address = req.params.address;
+});
+
 app.listen(port, () => {
     console.log(`server running on port ${port}...`);
 });
