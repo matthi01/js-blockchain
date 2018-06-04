@@ -209,6 +209,53 @@ app.get("/node-address", (req, res) => {
     res.json({ nodeAddress: nodeAddress });
 });
 
+app.get("/consensus", (req, res) => {
+    const requestPromises = [];
+
+    myCoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + "/blockchain",
+            method: "GET",
+            json: true
+        };
+
+        requestPromises.push(requestPromise(requestOptions));
+
+        Promise.all(requestPromises).then(blockchains => {
+            const currentChainLength = myCoin.chain.length;
+            let maxChainLength = currentChainLength;
+            let newLongestChain = null;
+            let newPendingTransactions = null;
+
+            blockchains.forEach(blockchain => {
+                if (blockchain.chain.length > maxChainLength) {
+                    maxChainLength = blockchain.chain.length;
+                    newLongestChain = blockchain.chain;
+                    newPendingTransactions = blockchain.transactions;
+                }
+            });
+
+            if (
+                !newLongestChain ||
+                (newLongestChain && !myCoin.chainIsValid(newLongestChain))
+            ) {
+                res.json({
+                    note: "Current chain has not been replaced",
+                    chain: myCoin.chain
+                });
+            } else {
+                myCoin.chain = newLongestChain;
+                myCOin.pendingTransactions = newPendingTransactions;
+
+                res.json({
+                    note: "This chain has been replaced",
+                    chain: myCoin.chain
+                });
+            }
+        });
+    });
+});
+
 app.listen(port, () => {
     console.log(`server running on port ${port}...`);
 });
