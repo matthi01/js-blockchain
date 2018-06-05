@@ -70,3 +70,7 @@ Each of these instances is hosted on a different port, from :3000 to :3005.</p>
 <p>Each node will compare its length to the length of the node with the longest chain in the network. If any chain is found that is longer, the longer chain will replace the original chain.</p>
 
 <hr />
+
+<p>Next:
+<ul>
+<li>Verify sender balance when submitting transaction</li><li>Copy functionality of ethereum, store more data in the blocks</li></ul></p>
