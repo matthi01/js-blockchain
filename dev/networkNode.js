@@ -274,6 +274,8 @@ app.get("/transaction/:transactionId", (req, res) => {
 
 app.get("/address/:address", (req, res) => {
     const address = req.params.address;
+    const addressObj = myCoin.getAddressData(address);
+    res.json({ addressData: addressObj });
 });
 
 app.listen(port, () => {

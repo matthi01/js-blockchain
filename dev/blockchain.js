@@ -168,7 +168,7 @@ Blockchain.prototype.getAddressData = function(address) {
                 transaction.sender === address ||
                 transaction.recipient === address
             ) {
-                addressTransactions.push(transactionId);
+                addressTransactions.push(transaction);
             }
         });
     });
